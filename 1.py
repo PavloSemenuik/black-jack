@@ -1,4 +1,4 @@
-# black_jack.py
+
 
 class Card:
     def __init__(self, rank, suit):
@@ -6,7 +6,8 @@ class Card:
         self.suit = suit
 
     def __str__(self):
-        return f"{self.rank} of {self.suit}"
+        return f"{self.rank} of {self.suit}"  # "of" можна залишити, або замінити на "із" за бажанням
+
 class Hand:
     def __init__(self):
         self.cards = []
@@ -32,6 +33,7 @@ class Hand:
 
     def __str__(self):
         return ', '.join(str(card) for card in self.cards)
+
 class Deck:
     def __init__(self):
         suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades']
@@ -44,55 +46,56 @@ class Deck:
 
     def deal_card(self):
         return self.cards.pop() if self.cards else None
+
 def play_game():
-    # Create and shuffle the deck
+    # Створити та перемішати колоду
     deck = Deck()
     deck.shuffle()
 
-    # Initialize player's and dealer's hands
+    # Ініціалізувати руки гравця та дилера
     player_hand = Hand()
     dealer_hand = Hand()
 
-    # Deal two cards each
+    # Роздати по дві карти кожному
     player_hand.add_card(deck.deal_card())
     dealer_hand.add_card(deck.deal_card())
     player_hand.add_card(deck.deal_card())
     dealer_hand.add_card(deck.deal_card())
 
-    print("Player's hand:", player_hand)
-    print("Dealer's first card:", dealer_hand.cards[0])
+    print("Карти гравця:", player_hand)
+    print("Перша карта дилера:", dealer_hand.cards[0])
 
-    # Player's turn
+    # Хід гравця
     while True:
         if player_hand.get_value() < 21:
-            decision = input("Do you want another card? (y/n): ")
+            decision = input("Бажаєте ще карту? (y/n): ")
             if decision.lower() == 'y':
                 player_hand.add_card(deck.deal_card())
-                print("Player's hand:", player_hand)
+                print("Карти гравця:", player_hand)
             else:
                 break
         else:
             break
 
-    # Dealer's turn: dealer hits until hand value is at least 17
+    # Хід дилера: дилер бере карти, доки значення руки менше 17
     while dealer_hand.get_value() < 17:
         dealer_hand.add_card(deck.deal_card())
 
-    print("Dealer's hand:", dealer_hand)
+    print("Карти дилера:", dealer_hand)
     player_value = player_hand.get_value()
     dealer_value = dealer_hand.get_value()
-    print("Player's value:", player_value)
-    print("Dealer's value:", dealer_value)
+    print("Значення гравця:", player_value)
+    print("Значення дилера:", dealer_value)
 
-    # Determine the outcome
+    # Визначення результату
     if player_value > 21:
-        print("Bust! You lose.")
+        print("Перебір! Ви програли.")
     elif dealer_value > 21 or player_value > dealer_value:
-        print("You win!")
+        print("Ви виграли!")
     elif player_value < dealer_value:
-        print("You lose.")
+        print("Ви програли.")
     else:
-        print("Push (Tie).")
+        print("Нічия.")
 
 if __name__ == '__main__':
     play_game()
