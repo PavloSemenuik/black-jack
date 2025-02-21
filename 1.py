@@ -32,3 +32,15 @@ class Hand:
 
     def __str__(self):
         return ', '.join(str(card) for card in self.cards)
+class Deck:
+    def __init__(self):
+        suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades']
+        ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace']
+        self.cards = [Card(rank, suit) for suit in suits for rank in ranks]
+
+    def shuffle(self):
+        import random
+        random.shuffle(self.cards)
+
+    def deal_card(self):
+        return self.cards.pop() if self.cards else None
