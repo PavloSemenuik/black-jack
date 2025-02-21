@@ -44,3 +44,55 @@ class Deck:
 
     def deal_card(self):
         return self.cards.pop() if self.cards else None
+def play_game():
+    # Create and shuffle the deck
+    deck = Deck()
+    deck.shuffle()
+
+    # Initialize player's and dealer's hands
+    player_hand = Hand()
+    dealer_hand = Hand()
+
+    # Deal two cards each
+    player_hand.add_card(deck.deal_card())
+    dealer_hand.add_card(deck.deal_card())
+    player_hand.add_card(deck.deal_card())
+    dealer_hand.add_card(deck.deal_card())
+
+    print("Player's hand:", player_hand)
+    print("Dealer's first card:", dealer_hand.cards[0])
+
+    # Player's turn
+    while True:
+        if player_hand.get_value() < 21:
+            decision = input("Do you want another card? (y/n): ")
+            if decision.lower() == 'y':
+                player_hand.add_card(deck.deal_card())
+                print("Player's hand:", player_hand)
+            else:
+                break
+        else:
+            break
+
+    # Dealer's turn: dealer hits until hand value is at least 17
+    while dealer_hand.get_value() < 17:
+        dealer_hand.add_card(deck.deal_card())
+
+    print("Dealer's hand:", dealer_hand)
+    player_value = player_hand.get_value()
+    dealer_value = dealer_hand.get_value()
+    print("Player's value:", player_value)
+    print("Dealer's value:", dealer_value)
+
+    # Determine the outcome
+    if player_value > 21:
+        print("Bust! You lose.")
+    elif dealer_value > 21 or player_value > dealer_value:
+        print("You win!")
+    elif player_value < dealer_value:
+        print("You lose.")
+    else:
+        print("Push (Tie).")
+
+if __name__ == '__main__':
+    play_game()
